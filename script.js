@@ -35,34 +35,43 @@ var BankAccount = /** @class */ (function () {
     }
     //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
     BankAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        switch (this.accountType) {
-            case 1:
-                this.balance = this.balance - amount;
-                //add to history.
-                break;
-            case 2:
-                //read history, deny on account of transaction type.
-                //if it works add it to history
-                break;
-            case 3:
-                //read age, fine additional money on basis of age.
-                //add it to history
-                break;
-            default:
-                console.log('Error, It would appear that this account type is not deifned.');
-        }
+        // switch(this.accountType){
+        //   case 1:
+        //    this.balance = this.balance - amount;
+        //    //add to history.
+        //    break;
+        //   case 2:
+        //    //read history, deny on account of transaction type.
+        //    //if it works add it to history
+        //    break;
+        //   case 3:
+        //    //read age, fine additional money on basis of age.
+        //    //add it to history
+        //    break;
+        //   default:
+        //    console.log('Error, It would appear that this account type is not deifned.');
+        return {
+            success: true,
+            amount: 10,
+            resultBalance: this.balance,
+            transactionDate: new Date(),
+            description: 'description',
+            errorMessage: 'no errors encountered'
+        };
     };
     BankAccount.prototype.depositMoney = function (amount, description) {
         this.balance = this.balance + amount;
-        var day = new date();
-        this.accountHistory.push({
+        var day = new Date();
+        var transaction = {
             success: true,
             amount: amount,
             resultBalance: this.balance,
-            transactionDate: day.getTime(),
+            transactionDate: day,
             description: description,
             errorMessage: 'no errors encountered'
-        });
+        };
+        this.accountHistory.push(transaction);
+        return transaction;
         // balance = balance + amount;
         //INSERT A WAY OF LOGGING THIS IN HISTORY
     };
