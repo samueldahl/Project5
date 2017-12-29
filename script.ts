@@ -1,4 +1,3 @@
-
 function checkBankAccounts() {
   for (var i = 0; i < bankAccounts.length; i++){
     bankAccounts[i].balance *= (1 + (bankAccounts[i].accountType / 100 / 12));
@@ -55,8 +54,6 @@ class BankAccount implements Account {
         } else {
           this.balance -= amount;
         }
-        this.balance += amount;
-        //read history, deny on account of transaction type.
         break;
       case AccountType.retirement:
         var d = new Date();
@@ -65,6 +62,7 @@ class BankAccount implements Account {
         // Determines if their b-day has occured this year and accounts for it if it has not.
         if (d.getMonth() <= bDay.getMonth() && d.getDate() < bDay.getDate()) age--;
         if (age < 60) amount *= 1.1, output.amount = amount;
+          output.resultBalance = this.balance - amount;
         if (this.balance - amount < 0) {
           output.success = false;
           output.errorMessage = 'Insufficient funds.';
@@ -163,8 +161,9 @@ interface Transaction {
 var bankAccounts = [];
 
 function createBankAccount(name: string, bDay: Date, type: AccountType) {
-  bankAccounts.push(new BankAccount('dank', new Date(), type));
+  bankAccounts.push(new BankAccount('dank', bDay, type));
 }
-
-createBankAccount("DankboisAccount", new Date(), AccountType.retirement);
+var d = new Date();
+d.setFullYear(1800);
+createBankAccount("DankboisAccount", d, AccountType.retirement);
 console.log(bankAccounts[0].withdrawMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));

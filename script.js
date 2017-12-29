@@ -70,8 +70,6 @@ var BankAccount = /** @class */ (function () {
                 else {
                     this.balance -= amount;
                 }
-                this.balance += amount;
-                //read history, deny on account of transaction type.
                 break;
             case AccountType.retirement:
                 var d = new Date();
@@ -82,6 +80,7 @@ var BankAccount = /** @class */ (function () {
                     age--;
                 if (age < 60)
                     amount *= 1.1, output.amount = amount;
+                output.resultBalance = this.balance - amount;
                 if (this.balance - amount < 0) {
                     output.success = false;
                     output.errorMessage = 'Insufficient funds.';
@@ -126,7 +125,9 @@ var AccountType;
 })(AccountType || (AccountType = {}));
 var bankAccounts = [];
 function createBankAccount(name, bDay, type) {
-    bankAccounts.push(new BankAccount('dank', new Date(), type));
+    bankAccounts.push(new BankAccount('dank', bDay, type));
 }
-createBankAccount("DankboisAccount", new Date(), AccountType.retirement);
+var d = new Date();
+d.setFullYear(1800);
+createBankAccount("DankboisAccount", d, AccountType.retirement);
 console.log(bankAccounts[0].withdrawMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
