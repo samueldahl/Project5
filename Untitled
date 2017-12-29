@@ -1,4 +1,4 @@
-var BankAccount = (function () {
+var BankAccount = /** @class */ (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
         name, bDay, accountType) {
@@ -42,4 +42,4 @@ var AccountType;
     AccountType[AccountType["savings"] = 2] = "savings";
     AccountType[AccountType["retirement"] = 3] = "retirement";
 })(AccountType || (AccountType = {}));
-console.log(new BankAccount('dank', new Date(), AccountType.retirement).balance);
+console.log(new BankAccount('dank', new Date(), AccountType.checking).balance);

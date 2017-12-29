@@ -1,3 +1,43 @@
+class BankAccount {
+  public accountHolderName: string;
+  public accountHolderBirthDate: Date;
+  public balance: number;
+  //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
+  public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin) {
+    console.log(amount);
+  }
+  public depositMoney(amount: number, description: string) {
+    console.log(amount);
+  }
+  public accountHistory: Transaction[];
+  public advanceDate(numberOfDays: number) {
+    console.log(numberOfDays);
+  }
+  public accountType: AccountType;
+  constructor (
+    // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
+    name: string,
+    bDay: Date,
+    accountType: AccountType
+  ) {
+    this.accountHolderName = name;
+    this.accountHolderBirthDate = bDay;
+    switch (+accountType) {
+      case AccountType.checking:
+        this.balance = 1000;
+        break;
+      case AccountType.savings:
+        this.balance = 10000;
+        break;
+      case AccountType.retirement:
+        this.balance = 100000;
+        break;
+      default:
+        this.balance = 0;
+    }
+  }
+}
+
 enum TransactionOrigin {
     web = 1,
     phone = 2,
@@ -12,11 +52,13 @@ interface Account {
     accountHolderName: string;
     accountHolderBirthDate: Date;
     balance: number;
+    // We assign the function, this just declares it.
     withdrawMoney(amount: number,
                   description: string,
                   transactionOrigin: TransactionOrigin) : Transaction;
-    depositMoney(amount: number
+    depositMoney(amount: number,
     description: string) : Transaction;
+    // array of transactions
     accountHistory : Transaction[];
     advanceDate(numberOfDays: number);
     accountType: AccountType;
@@ -32,3 +74,5 @@ interface Transaction {
     // errorMessage will be an empty string when success is true:
     errorMessage: string;
 }
+
+console.log(new BankAccount('dank', new Date(), AccountType.retirement).balance);
