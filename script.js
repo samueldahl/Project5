@@ -1,9 +1,24 @@
-var BankAccount = (function () {
+function checkBankAccounts() {
+    for (var i = 0; i < bankAccounts.length; i++) {
+        bankAccounts[i].balance *= (1 + (bankAccounts[i].accountType / 100 / 12));
+    }
+}
+var lastMonth;
+setInterval(function () {
+    var d = new Date();
+    var thisMonth = d.getMonth();
+    if (thisMonth == lastMonth)
+        return;
+    lastMonth = thisMonth;
+    checkBankAccounts();
+}, 1000);
+var BankAccount = /** @class */ (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
         name, bDay, accountType) {
         this.accountHolderName = name;
         this.accountHolderBirthDate = bDay;
+        this.accountType = accountType;
         switch (+accountType) {
             case AccountType.checking:
                 this.balance = 1000;
@@ -42,4 +57,7 @@ var AccountType;
     AccountType[AccountType["savings"] = 2] = "savings";
     AccountType[AccountType["retirement"] = 3] = "retirement";
 })(AccountType || (AccountType = {}));
-console.log(new BankAccount('dank', new Date(), AccountType.retirement).balance);
+var bankAccounts = [];
+function createBankAccount(name, bDay, type) {
+    bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
+}
