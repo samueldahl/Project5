@@ -21,9 +21,9 @@ class BankAccount {
   public accountHistory: Transaction[];
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
   public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
-     switch(accountType){
+     switch(this.accountType){
        case 1:
-        balance = balance - amount;
+        this.balance = this.balance - amount;
         //add to history.
         break;
        case 2:
@@ -34,8 +34,8 @@ class BankAccount {
         //read age, fine additional money on basis of age.
         //add it to history
         break;
-       default;
-       console.log('Error, It would appear that this account type is not deifned.');
+       default:
+        console.log('Error, It would appear that this account type is not deifned.');
      }
   }
   public depositMoney(amount: number, description: string): Transaction {

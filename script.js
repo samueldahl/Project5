@@ -35,9 +35,9 @@ var BankAccount = /** @class */ (function () {
     }
     //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
     BankAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        switch (accountType) {
+        switch (this.accountType) {
             case 1:
-                balance = balance - amount;
+                this.balance = this.balance - amount;
                 //add to history.
                 break;
             case 2:
@@ -49,7 +49,6 @@ var BankAccount = /** @class */ (function () {
                 //add it to history
                 break;
             default:
-                ;
                 console.log('Error, It would appear that this account type is not deifned.');
         }
     };
