@@ -20,7 +20,7 @@ var BankAccount = /** @class */ (function () {
         this.accountHolderName = name;
         this.accountHolderBirthDate = bDay;
         this.accountType = accountType;
-        switch (+accountType) {
+        switch (accountType) {
             case AccountType.checking:
                 this.balance = 1000;
                 break;
@@ -95,7 +95,7 @@ var AccountType;
 })(AccountType || (AccountType = {}));
 var bankAccounts = [];
 function createBankAccount(name, bDay, type) {
-    bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
+    bankAccounts.push(new BankAccount('dank', new Date(), type));
 }
 createBankAccount("DankboisAccount", new Date(), AccountType.savings);
 console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));
