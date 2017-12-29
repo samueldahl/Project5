@@ -18,7 +18,7 @@ class BankAccount {
   public accountHolderName: string;
   public accountHolderBirthDate: Date;
   public balance: number;
-  public accountHistory: Transaction[];
+  public accountHistory: Transaction[] = [];
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
   public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
      // switch(this.accountType){

@@ -16,6 +16,7 @@ var BankAccount = /** @class */ (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
         name, bDay, accountType) {
+        this.accountHistory = [];
         this.accountHolderName = name;
         this.accountHolderBirthDate = bDay;
         this.accountType = accountType;
