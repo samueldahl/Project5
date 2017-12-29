@@ -88,5 +88,5 @@ var bankAccounts = [];
 function createBankAccount(name, bDay, type) {
     bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
 }
-createBankAccount("DankboisAccount", new Date(), Account.Type.savings);
+createBankAccount("DankboisAccount", new Date(), AccountType.savings);
 console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));

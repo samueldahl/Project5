@@ -18,6 +18,7 @@ class BankAccount {
   public accountHolderName: string;
   public accountHolderBirthDate: Date;
   public balance: number;
+  public accountHistory: Transaction[];
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
   public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
      switch(accountType){
@@ -37,7 +38,7 @@ class BankAccount {
        console.log('Error, It would appear that this account type is not deifned.');
      }
   }
-  public depositMoney(amount: number, description: string) {
+  public depositMoney(amount: number, description: string): Transaction {
     this.balance = this.balance + amount;
     let day = new date();
     this.accountHistory.push({
@@ -52,7 +53,6 @@ class BankAccount {
     // balance = balance + amount;
     //INSERT A WAY OF LOGGING THIS IN HISTORY
   }
-  public accountHistory: Transaction[];
   public advanceDate(numberOfDays: number) {
     console.log(numberOfDays);
   }
@@ -128,5 +128,5 @@ function createBankAccount(name: string, bDay: Date, type: AccountType) {
   bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
 }
 
-createBankAccount("DankboisAccount",new Date(), Account.Type.savings);
+createBankAccount("DankboisAccount",new Date(), AccountType.savings);
 console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));
