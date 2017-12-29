@@ -11,7 +11,7 @@ setInterval(function () {
   var thisMonth = d.getMonth();
   if (thisMonth == lastMonth) return;
   lastMonth = thisMonth;
-  checkBankAccounts();
+  checkBankAccounts()
 }, 1000);
 
 class BankAccount {
@@ -19,11 +19,38 @@ class BankAccount {
   public accountHolderBirthDate: Date;
   public balance: number;
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
-  public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin) {
-    console.log(amount);
+  public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
+     switch(accountType){
+       case 1:
+        balance = balance - amount;
+        //add to history.
+        break;
+       case 2:
+        //read history, deny on account of transaction type.
+        //if it works add it to history
+        break;
+       case 3:
+        //read age, fine additional money on basis of age.
+        //add it to history
+        break;
+       default;
+       console.log('Error, It would appear that this account type is not deifned.');
+     }
   }
   public depositMoney(amount: number, description: string) {
-    console.log(amount);
+    this.balance = this.balance + amount;
+    let day = new date();
+    this.accountHistory.push({
+      success:true,
+      amount:amount,
+      resultBalance: this.balance,
+      transactionDate:day.getTime(),
+      description:description,
+      errorMessage:'no errors encountered'
+
+    });
+    // balance = balance + amount;
+    //INSERT A WAY OF LOGGING THIS IN HISTORY
   }
   public accountHistory: Transaction[];
   public advanceDate(numberOfDays: number) {
@@ -96,6 +123,10 @@ interface Transaction {
 }
 
 var bankAccounts = [];
+
 function createBankAccount(name: string, bDay: Date, type: AccountType) {
   bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
 }
+
+createBankAccount("DankboisAccount",new Date(), Account.Type.savings);
+console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));

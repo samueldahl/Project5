@@ -35,10 +35,37 @@ var BankAccount = /** @class */ (function () {
     }
     //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
     BankAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
-        console.log(amount);
+        switch (accountType) {
+            case 1:
+                balance = balance - amount;
+                //add to history.
+                break;
+            case 2:
+                //read history, deny on account of transaction type.
+                //if it works add it to history
+                break;
+            case 3:
+                //read age, fine additional money on basis of age.
+                //add it to history
+                break;
+            default:
+                ;
+                console.log('Error, It would appear that this account type is not deifned.');
+        }
     };
     BankAccount.prototype.depositMoney = function (amount, description) {
-        console.log(amount);
+        this.balance = this.balance + amount;
+        var day = new date();
+        this.accountHistory.push({
+            success: true,
+            amount: amount,
+            resultBalance: this.balance,
+            transactionDate: day.getTime(),
+            description: description,
+            errorMessage: 'no errors encountered'
+        });
+        // balance = balance + amount;
+        //INSERT A WAY OF LOGGING THIS IN HISTORY
     };
     BankAccount.prototype.advanceDate = function (numberOfDays) {
         console.log(numberOfDays);
@@ -61,3 +88,5 @@ var bankAccounts = [];
 function createBankAccount(name, bDay, type) {
     bankAccounts.push(new BankAccount('dank', new Date(), AccountType.retirement));
 }
+createBankAccount("DankboisAccount", new Date(), Account.Type.savings);
+console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));
