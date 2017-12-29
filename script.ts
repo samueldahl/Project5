@@ -1,3 +1,4 @@
+
 function checkBankAccounts() {
   for (var i = 0; i < bankAccounts.length; i++){
     bankAccounts[i].balance *= (1 + (bankAccounts[i].accountType / 100 / 12));
@@ -14,39 +15,70 @@ setInterval(function () {
   checkBankAccounts()
 }, 1000);
 
-class BankAccount {
+class BankAccount implements Account {
+  public displayName: string = 'BankAccount';
+  public id: string = 'BankAccount';
+  public rpDisplayName: string = 'BankAccount';
   public accountHolderName: string;
   public accountHolderBirthDate: Date;
   public balance: number;
   public accountHistory: Transaction[] = [];
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
   public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
-     // switch(this.accountType){
-     //   case 1:
-     //    this.balance = this.balance - amount;
-     //    //add to history.
-     //    break;
-     //   case 2:
-     //    //read history, deny on account of transaction type.
-     //    //if it works add it to history
-     //    break;
-     //   case 3:
-     //    //read age, fine additional money on basis of age.
-     //    //add it to history
-     //    break;
-     //   default:
-     //    console.log('Error, It would appear that this account type is not deifned.');
-    return {
-      success:true,
-      amount:10,
-      resultBalance: this.balance,
-      transactionDate:new Date(),
-      description:'description',
-      errorMessage:'no errors encountered'
+    var day = new Date();
+    var output = {
+      success: true,
+      amount: amount,
+      resultBalance: this.balance - amount,
+      transactionDate: day,
+      description: description,
+      errorMessage: ''
     };
+    if (this.balance - amount < 0) {
+      output.success = false;
+      output.errorMessage = 'Insufficient funds.';
+      return output;
+    }
+    switch(this.accountType){
+      case AccountType.checking:
+        this.balance -= amount;
+        break;
+      case AccountType.savings:
+        if (transactionOrigin != TransactionOrigin.branch) {
+          if (this.accountHistory.length >= 6) {
+            output.success = false;
+            output.errorMessage = 'Limit on phone and web transactions reached.';
+            return output;
+          }
+          this.balance -= amount;
+          this.accountHistory.push(output);
+        } else {
+          this.balance -= amount;
+        }
+        this.balance += amount;
+        //read history, deny on account of transaction type.
+        break;
+      case AccountType.retirement:
+        var d = new Date();
+        var bDay = this.accountHolderBirthDate;
+        var age = d.getFullYear() - bDay.getFullYear();
+        // Determines if their b-day has occured this year and accounts for it if it has not.
+        if (d.getMonth() <= bDay.getMonth() && d.getDate() < bDay.getDate()) age--;
+        if (age < 60) amount *= 1.1, output.amount = amount;
+        if (this.balance - amount < 0) {
+          output.success = false;
+          output.errorMessage = 'Insufficient funds.';
+          return output;
+        }
+        this.balance -= amount;
+        //read age, fine additional money on basis of age.
+    }
+    //The below part should satisfy the requirement that an object be returned, and it will also write to the history.
+    //this.accountHistory.push(transaction);
+    return output;
   }
   public depositMoney(amount: number, description: string): Transaction {
-    this.balance = this.balance + amount;
+    this.balance += amount;
     let day = new Date();
     var transaction = {
       success:true,
@@ -54,12 +86,10 @@ class BankAccount {
       resultBalance: this.balance,
       transactionDate:day,
       description:description,
-      errorMessage:'no errors encountered'
+      errorMessage:'',
     }
     this.accountHistory.push(transaction);
     return transaction;
-    // balance = balance + amount;
-    //INSERT A WAY OF LOGGING THIS IN HISTORY
   }
   public advanceDate(numberOfDays: number) {
     console.log(numberOfDays);
@@ -136,5 +166,5 @@ function createBankAccount(name: string, bDay: Date, type: AccountType) {
   bankAccounts.push(new BankAccount('dank', new Date(), type));
 }
 
-createBankAccount("DankboisAccount",new Date(), AccountType.savings);
-console.log(bankAccounts[0].depositMoney(15000, 'Got an epic freelance job with some weird client in Uganda.'));
+createBankAccount("DankboisAccount", new Date(), AccountType.retirement);
+console.log(bankAccounts[0].withdrawMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
