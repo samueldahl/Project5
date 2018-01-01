@@ -12,7 +12,7 @@ setInterval(function () {
     lastMonth = thisMonth;
     checkBankAccounts();
 }, 1000);
-var BankAccount = /** @class */ (function () {
+var BankAccount = (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
         name, bDay, accountType) {
@@ -101,7 +101,7 @@ var BankAccount = /** @class */ (function () {
             resultBalance: this.balance,
             transactionDate: day,
             description: description,
-            errorMessage: ''
+            errorMessage: '',
         };
         this.accountHistory.push(transaction);
         return transaction;
