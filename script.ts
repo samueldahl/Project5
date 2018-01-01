@@ -166,4 +166,4 @@ function createBankAccount(name: string, bDay: Date, type: AccountType) {
 var d = new Date();
 d.setFullYear(1800);
 createBankAccount("DankboisAccount", d, AccountType.retirement);
-console.log(bankAccounts[0].withdrawMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
+console.log(bankAccounts[0].depositMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));

@@ -12,7 +12,7 @@ setInterval(function () {
     lastMonth = thisMonth;
     checkBankAccounts();
 }, 1000);
-var BankAccount = (function () {
+var BankAccount = /** @class */ (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
         name, bDay, accountType) {
@@ -101,7 +101,7 @@ var BankAccount = (function () {
             resultBalance: this.balance,
             transactionDate: day,
             description: description,
-            errorMessage: '',
+            errorMessage: ''
         };
         this.accountHistory.push(transaction);
         return transaction;
@@ -130,4 +130,4 @@ function createBankAccount(name, bDay, type) {
 var d = new Date();
 d.setFullYear(1800);
 createBankAccount("DankboisAccount", d, AccountType.retirement);
-console.log(bankAccounts[0].withdrawMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
+console.log(bankAccounts[0].depositMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
