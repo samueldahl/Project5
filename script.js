@@ -3,15 +3,15 @@ function checkBankAccounts() {
         bankAccounts[i].balance *= (1 + (bankAccounts[i].accountType / 100 / 12));
     }
 }
-var lastMonth;
-setInterval(function () {
-    var d = new Date();
-    var thisMonth = d.getMonth();
-    if (thisMonth == lastMonth)
-        return;
-    lastMonth = thisMonth;
-    checkBankAccounts();
-}, 1000);
+// var lastMonth;     This setup used the actual date stamp to calculate intrest. This is not against the rubric, which only requires that intrest be calculated corrorectly in relation to time, but it is a violation of the description.
+//
+// setInterval(function () {
+//   var d = new Date();
+//   var thisMonth = d.getMonth();
+//   if (thisMonth == lastMonth) return;
+//   lastMonth = thisMonth;
+//   checkBankAccounts()
+// }, 1000);
 var BankAccount = /** @class */ (function () {
     function BankAccount(
         // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
@@ -50,7 +50,7 @@ var BankAccount = /** @class */ (function () {
         };
         if (this.balance - amount < 0) {
             output.success = false;
-            output.errorMessage = 'Insufficient funds.';
+            output.errorMessage = 'Homie, ya ain\'t got the money to do dat!';
             return output;
         }
         switch (this.accountType) {
@@ -61,7 +61,7 @@ var BankAccount = /** @class */ (function () {
                 if (transactionOrigin != TransactionOrigin.branch) {
                     if (this.accountHistory.length >= 6) {
                         output.success = false;
-                        output.errorMessage = 'Limit on phone and web transactions reached.';
+                        output.errorMessage = 'Limit on phone and web transactions reached homie.';
                         return output;
                     }
                     this.balance -= amount;
@@ -101,7 +101,7 @@ var BankAccount = /** @class */ (function () {
             resultBalance: this.balance,
             transactionDate: day,
             description: description,
-            errorMessage: ''
+            errorMessage: '',
         };
         this.accountHistory.push(transaction);
         return transaction;
@@ -131,3 +131,9 @@ var d = new Date();
 d.setFullYear(1800);
 createBankAccount("DankboisAccount", d, AccountType.retirement);
 console.log(bankAccounts[0].depositMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
+// Modify all date modifiers thingies to use a global variable day of month that resets when it is set to 31.
+// the method should run repeatedly if greater numbers are entered.
+// could test it agaisnt currentDayOfMonth >= 31 run it and take away 31, repeat untill less then 31.
+// could test it agaisnt currentDayOfMonth + daysAdded > 31, but is less then 62 take away 31 from the sum,
+// run intrest calculation, and set the current day of month to 62 minus sum.
+// And finaly just add days advanced to the day of month if its less then 31.

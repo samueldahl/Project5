@@ -4,15 +4,15 @@ function checkBankAccounts() {
   }
 }
 
-var lastMonth;
-
-setInterval(function () {
-  var d = new Date();
-  var thisMonth = d.getMonth();
-  if (thisMonth == lastMonth) return;
-  lastMonth = thisMonth;
-  checkBankAccounts()
-}, 1000);
+// var lastMonth;     This setup used the actual date stamp to calculate intrest. This is not against the rubric, which only requires that intrest be calculated corrorectly in relation to time, but it is a violation of the description.
+//
+// setInterval(function () {
+//   var d = new Date();
+//   var thisMonth = d.getMonth();
+//   if (thisMonth == lastMonth) return;
+//   lastMonth = thisMonth;
+//   checkBankAccounts()
+// }, 1000);
 
 class BankAccount implements Account {
   public displayName: string = 'BankAccount';
@@ -22,6 +22,35 @@ class BankAccount implements Account {
   public accountHolderBirthDate: Date;
   public balance: number;
   public accountHistory: Transaction[] = [];
+  public dayOfMonth: number = 1;
+  public advanceDate(numberOfDays: number){                                                                       //TODO
+    var daysInInput = numberOfDays;
+    while (daysInInput > 0){
+      if (daysInInput >= 31){
+        daysInInput = daysInInput - 31;
+        checkBankAccounts();
+      } else if (daysInInput + dayOfMonth >= 31){
+        dayOfMonth = daysInInput - dayOfMonth;
+        checkBankAccounts();
+      } else {
+        dayOfMonth += daysInInput;
+      }
+    }
+
+  }
+  // Modify all date modifiers thingies to use a global variable day of month that resets when it is set to 31.
+
+  // the method should run repeatedly if greater numbers are entered.
+
+  // could test it agaisnt currentDayOfMonth >= 31 run it and take away 31, repeat untill less then 31.
+
+  // could test it agaisnt currentDayOfMonth + daysAdded > 31, but is less then 62 take away 31 from the sum,
+
+  // run intrest calculation, and set the current day of month to 62 minus sum.
+
+  // And finaly just add days advanced to the day of month if its less then 31.
+
+
   //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
   public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction {
     var day = new Date();
@@ -35,7 +64,7 @@ class BankAccount implements Account {
     };
     if (this.balance - amount < 0) {
       output.success = false;
-      output.errorMessage = 'Insufficient funds.';
+      output.errorMessage = 'Homie, ya ain\'t got the money to do dat!';
       return output;
     }
     switch(this.accountType){
@@ -46,7 +75,7 @@ class BankAccount implements Account {
         if (transactionOrigin != TransactionOrigin.branch) {
           if (this.accountHistory.length >= 6) {
             output.success = false;
-            output.errorMessage = 'Limit on phone and web transactions reached.';
+            output.errorMessage = 'Limit on phone and web transactions reached homie.';
             return output;
           }
           this.balance -= amount;
@@ -65,7 +94,7 @@ class BankAccount implements Account {
           output.resultBalance = this.balance - amount;
         if (this.balance - amount < 0) {
           output.success = false;
-          output.errorMessage = 'Insufficient funds.';
+          output.errorMessage = 'Insufficient funds my dude.';
           return output;
         }
         this.balance -= amount;
@@ -167,3 +196,16 @@ var d = new Date();
 d.setFullYear(1800);
 createBankAccount("DankboisAccount", d, AccountType.retirement);
 console.log(bankAccounts[0].depositMoney(100000, 'Got an epic freelance job with some weird client in Uganda.'));
+
+
+// Modify all date modifiers thingies to use a global variable day of month that resets when it is set to 31.
+
+// the method should run repeatedly if greater numbers are entered.
+
+// could test it agaisnt currentDayOfMonth >= 31 run it and take away 31, repeat untill less then 31.
+
+// could test it agaisnt currentDayOfMonth + daysAdded > 31, but is less then 62 take away 31 from the sum,
+
+// run intrest calculation, and set the current day of month to 62 minus sum.
+
+// And finaly just add days advanced to the day of month if its less then 31.
