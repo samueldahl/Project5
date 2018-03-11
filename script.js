@@ -14,12 +14,13 @@ function checkBankAccounts() {
 // }, 1000);
 var BankAccount = /** @class */ (function () {
     function BankAccount(
-        // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
-        name, bDay, accountType) {
+    // When new BankAccount() is called this area defines the available arguments. Arguments are typed here.
+    name, bDay, accountType) {
         this.displayName = 'BankAccount';
         this.id = 'BankAccount';
         this.rpDisplayName = 'BankAccount';
         this.accountHistory = [];
+        this.dayOfMonth = 1;
         this.accountHolderName = name;
         this.accountHolderBirthDate = bDay;
         this.accountType = accountType;
@@ -37,6 +38,28 @@ var BankAccount = /** @class */ (function () {
                 this.balance = 0;
         }
     }
+    BankAccount.prototype.advanceDate = function (numberOfDays) {
+        var daysInInput = numberOfDays;
+        while (daysInInput > 0) {
+            if (daysInInput >= 31) {
+                daysInInput = daysInInput - 31;
+                checkBankAccounts();
+            }
+            else if (daysInInput + this.dayOfMonth >= 31) {
+                this.dayOfMonth = daysInInput - this.dayOfMonth;
+                checkBankAccounts();
+            }
+            else {
+                this.dayOfMonth += daysInInput;
+            }
+        }
+    };
+    // Modify all date modifiers thingies to use a global variable day of month that resets when it is set to 31.
+    // the method should run repeatedly if greater numbers are entered.
+    // could test it agaisnt currentDayOfMonth >= 31 run it and take away 31, repeat untill less then 31.
+    // could test it agaisnt currentDayOfMonth + daysAdded > 31, but is less then 62 take away 31 from the sum,
+    // run intrest calculation, and set the current day of month to 62 minus sum.
+    // And finaly just add days advanced to the day of month if its less then 31.
     //public withdrawMoney(amount: number, description: string, transactionOrigin: TransactionOrigin): Transaction,
     BankAccount.prototype.withdrawMoney = function (amount, description, transactionOrigin) {
         var day = new Date();
@@ -83,7 +106,7 @@ var BankAccount = /** @class */ (function () {
                 output.resultBalance = this.balance - amount;
                 if (this.balance - amount < 0) {
                     output.success = false;
-                    output.errorMessage = 'Insufficient funds.';
+                    output.errorMessage = 'Insufficient funds my dude.';
                     return output;
                 }
                 this.balance -= amount;
@@ -101,13 +124,10 @@ var BankAccount = /** @class */ (function () {
             resultBalance: this.balance,
             transactionDate: day,
             description: description,
-            errorMessage: '',
+            errorMessage: ''
         };
         this.accountHistory.push(transaction);
         return transaction;
-    };
-    BankAccount.prototype.advanceDate = function (numberOfDays) {
-        console.log(numberOfDays);
     };
     return BankAccount;
 }());

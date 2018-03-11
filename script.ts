@@ -29,11 +29,11 @@ class BankAccount implements Account {
       if (daysInInput >= 31){
         daysInInput = daysInInput - 31;
         checkBankAccounts();
-      } else if (daysInInput + dayOfMonth >= 31){
-        dayOfMonth = daysInInput - dayOfMonth;
+      } else if (daysInInput + this.dayOfMonth >= 31){
+        this.dayOfMonth = daysInInput - this.dayOfMonth;
         checkBankAccounts();
       } else {
-        dayOfMonth += daysInInput;
+        this.dayOfMonth += daysInInput;
       }
     }
 
@@ -117,9 +117,6 @@ class BankAccount implements Account {
     }
     this.accountHistory.push(transaction);
     return transaction;
-  }
-  public advanceDate(numberOfDays: number) {
-    console.log(numberOfDays);
   }
   public accountType: AccountType;
   constructor (
