@@ -47,10 +47,12 @@ var BankAccount = /** @class */ (function () {
             }
             else if (daysInInput + this.dayOfMonth >= 31) {
                 this.dayOfMonth = daysInInput - this.dayOfMonth;
+                daysInInput = 0;
                 checkBankAccounts();
             }
             else {
                 this.dayOfMonth += daysInInput;
+                daysInInput = 0;
             }
         }
     };
